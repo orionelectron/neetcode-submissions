@@ -1,15 +1,20 @@
 class Solution {
-    
+    constructor() {
+        this.seen = new Set();
+    }
+
     /**
      * @param {number[]} nums
      * @return {boolean}
      */
     hasDuplicate(nums) {
-        let seen = new Set(nums);
-        if(nums.length === seen.size){
-            return false;
+        for (let i = 0; i < nums.length; i++) {
+            if (this.seen.has(nums[i])) {
+                return true;
+            }
+            this.seen.add(nums[i]);
         }
-        return true;
 
+        return false;
     }
 }

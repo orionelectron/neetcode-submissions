@@ -1,54 +1,44 @@
 class Solution {
-    /**
-     * @param {character[][]} board
-     * @return {boolean}
-     */
     isValidSudoku(board) {
 
-        let rowMap = {};
-        let colMap = {};
         let boxMap = {};
+
         for (let i = 0; i < 9; i++) {
-            rowMap = {};
-            colMap = {};
+            let rowMap = {};
+            let colMap = {};
+
             for (let j = 0; j < 9; j++) {
-                const rowVal = board[i][j];
-                const colVal = board[j][i];
 
-                console.log(rowVal, colVal, rowMap, colMap)
-
-                if (rowMap[rowVal] && rowVal != ".") {
-                    console.log("Row val match: ", rowMap, rowVal)
-                    return false;
-                }
-                if (colMap[colVal] && colVal != ".") {
-                    console.log("Col val match: ", colMap, colVal)
-                    return false;
+                // ROW
+                let rowVal = board[i][j];
+                if (rowVal !== ".") {
+                    if (rowMap[rowVal]) return false;
+                    rowMap[rowVal] = true;
                 }
 
-                rowMap[rowVal] = true;
-                colMap[colVal] = true;
-
-                const boxRow = Math.floor(i / 3)
-                const boxCol = Math.floor(j / 3);
-                const boxId = boxRow * 3 + boxCol;
-                console.log(boxRow, boxCol, boxId, boxMap)
-
-                let boxIdList = boxMap[boxId];
-                if (!boxIdList) {
-                    boxIdList = [];
+                // COLUMN
+                let colVal = board[j][i];
+                if (colVal !== ".") {
+                    if (colMap[colVal]) return false;
+                    colMap[colVal] = true;
                 }
 
+                // BOX (NEW PART)
+                let boxRow = Math.floor(i / 3);
+                let boxCol = Math.floor(j / 3);
+                let boxId = boxRow * 3 + boxCol;
 
-                if (boxIdList.includes(rowVal) && rowVal !== ".") {
-                    console.log("Boxmap match: ", boxMap, rowVal)
-                    return false;
+                let boxVal = board[i][j];
+
+                if (boxVal !== ".") {
+                    let key = boxId + "-" + boxVal;
+
+                    if (boxMap[key]) return false;
+                    boxMap[key] = true;
                 }
-                boxIdList.push(rowVal);
-                boxMap[boxId] = boxIdList
-
             }
         }
+
         return true;
     }
 }
