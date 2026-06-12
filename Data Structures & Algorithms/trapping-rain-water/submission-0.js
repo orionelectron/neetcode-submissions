@@ -5,26 +5,28 @@ class Solution {
      */
     trap(height) {
         let result = 0;
-        for (let i = 0; i < height.length; i++) {
-            let maxLeft = 0;
-            let maxRight = 0;
-            let currentHeight = height[i];
+        let maxLeftArr = new Array(height.length).fill(0);
+        let maxRightArr = new Array(height.length).fill(0);
 
-            for (let k = 0; k < i; k++) {
-                if (height[k] >= maxLeft) {
-                    maxLeft = height[k];
-                }
-            }
-            for (let j = i + 1; j < height.length; j++) {
-                if (height[j] > maxRight) {
-                    maxRight = height[j];
-                }
-            };
+        maxLeftArr[0] = height[0];
+        maxRightArr[height.length - 1] = height[height.length - 1];
 
-            const currentResult = Math.min(maxLeft, maxRight) - currentHeight;
-            result = currentResult >= 0 ? result + currentResult : result;
+        //console.log(maxLeftArr, maxRightArr)
 
+
+        for (let i = 1; i < height.length; i++) {
+            maxLeftArr[i] = Math.max(height[i], maxLeftArr[i - 1])
         }
+
+        for (let j = height.length - 2; j >= 0; j--) {
+            maxRightArr[j] = Math.max(height[j], maxRightArr[j + 1])
+        }
+
+        for (let i = 0; i < height.length; i++) {
+            result += Math.min(maxLeftArr[i], maxRightArr[i]) - height[i];
+        }
+
+
         return result;
 
     }
