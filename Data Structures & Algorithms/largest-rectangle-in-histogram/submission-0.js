@@ -12,7 +12,7 @@ class Solution {
     }
 
     largestRectangleArea(heights) {
-        let stack = [];
+       
         let maxArea = 0;
 
 
